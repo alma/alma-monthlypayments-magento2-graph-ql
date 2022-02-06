@@ -1,0 +1,46 @@
+#Custom Module
+extend type Cart {
+    alma: AlmaInput @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaConfig") @doc(description:"Resolve alma defaul config")
+}
+
+type AlmaEligibility {
+    is_eligible:Boolean
+    reasons: String
+    constraints: String
+    fee_plans: [Instalment]
+}
+
+type Instalment {
+    customer_fee: Int
+    customer_interest: Int
+    due_date: Int
+    purchase_amount: Int
+    refunded_interest: Int
+    total_amount: Int
+}
+
+type AlmaInput {
+    is_enable: String @doc(description: "Back Office Enable")
+    mode: String @doc(description: "Back Office Active mode  - Production or Test")
+    title: String @doc(description: "Back Office Title")
+    description: String @doc(description: "Back office desciption")
+    sort_order: String @doc(description: "Back Office Sort Order")
+    fee_plans: [AlmaFeePlans] @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaFeePlans") @doc(description:"Resolve Alma Fee Plans")
+}
+
+type AlmaFeePlans {
+    allowed: Boolean @doc(description: "Is Allowed by Alma")
+    enabled: Boolean @doc(description: "Is enabled in Bo")
+    kind: String @doc(description: "Payment plan aera")
+    deferred_type: String @doc(description: "Deferred type")
+    deferred_duration: String @doc(description: "Deferred duration")
+    installments_count: Int @doc(description: "Number of Installment")
+    deferred_days: Int @doc(description: "Number of payment deferred Days")
+    deferred_months: Int @doc(description: "Number of paymenbt deferred month")
+    min_amount: Int @doc(description: "Min purchase amount in cent")
+    max_amount: Int @doc(description: "Max purchase amount in cent")
+    customer_lending_rate: Int @doc(description: "Customer credit cost")
+    logo: String @doc(description: "Fee plan logo")
+    key: String @doc(description: "Fee plan Key for Additional data")
+    eligibility: AlmaEligibility @doc(description:"Resolve Alma Fee Plans")
+}
