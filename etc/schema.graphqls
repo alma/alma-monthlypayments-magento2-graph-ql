@@ -20,7 +20,7 @@ type Instalment {
 }
 
 type AlmaInput {
-    is_enable: String @doc(description: "Back Office Enable")
+    is_enabled: Boolean @doc(description: "Back Office Enable")
     mode: String @doc(description: "Back Office Active mode  - Production or Test")
     title: String @doc(description: "Back Office Title")
     description: String @doc(description: "Back office desciption")
