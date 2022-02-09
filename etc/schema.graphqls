@@ -44,3 +44,10 @@ type AlmaFeePlans {
     key: String @doc(description: "Fee plan Key for Additional data")
     eligibility: AlmaEligibility @doc(description:"Resolve Alma Fee Plans")
 }
+input PaymentMethodInput {
+    alma: AlmaPaymentInput @doc(description:"Required input for Dalenys Payments")
+}
+input AlmaPaymentInput {
+    selectedPlan: String @doc(description: "Fee plan key like - general:3:0:0")
+}
+
