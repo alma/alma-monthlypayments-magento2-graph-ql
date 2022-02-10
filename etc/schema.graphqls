@@ -7,7 +7,7 @@ type AlmaEligibility {
     is_eligible:Boolean
     reasons: String
     constraints: String
-    fee_plans: [Instalment]
+    installments: [Instalment]
 }
 
 type Instalment {
@@ -45,10 +45,10 @@ type AlmaFeePlans {
     eligibility: AlmaEligibility @doc(description:"Resolve Alma Fee Plans")
 }
 input PaymentMethodInput {
-    alma: AlmaPaymentInput @doc(description:"Required input for Dalenys Payments")
+    alma_additional_data: AlmaPaymentInput @doc(description:"Required input for payment request builder")
 }
 input AlmaPaymentInput {
-    selectedPlan: String @doc(description: "Fee plan key like - general:3:0:0")
+    selectedPlan: String @doc(description: "Payment plan key like - general:3:0:0")
 }
 
 extend type Order {

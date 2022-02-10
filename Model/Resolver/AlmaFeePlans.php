@@ -58,8 +58,8 @@ class AlmaFeePlans implements ResolverInterface
             $paymentPlans[$key]['eligibility']['is_eligible'] = $planEligibility->isEligible;
             $paymentPlans[$key]['eligibility']['reasons'] = $planEligibility->reasons;
             $paymentPlans[$key]['eligibility']['constraints'] = $planEligibility->constraints;
-            foreach ($planEligibility->paymentPlan as $feePlan){
-                $paymentPlans[$key]['eligibility']['fee_plans'][] =$feePlan;
+            foreach ($planEligibility->paymentPlan as $installment){
+                $paymentPlans[$key]['eligibility']['installments'][] =$installment;
             }
         }
         return array_values($paymentPlans);
