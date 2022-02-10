@@ -51,3 +51,6 @@ input AlmaPaymentInput {
     selectedPlan: String @doc(description: "Fee plan key like - general:3:0:0")
 }
 
+extend type Order {
+    payment_url: String @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaPlaceOrderOutput") @doc(description:"Resolve payment URL")
+}
