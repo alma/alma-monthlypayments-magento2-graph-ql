@@ -14,11 +14,11 @@ class AlmaConfig implements ResolverInterface
     /**
      * @var Logger
      */
-    private Logger $logger;
+    private $logger;
     /**
      * @var Config
      */
-    private Config $almaConfig;
+    private $almaConfig;
 
     public function __construct(
         Logger $logger,
