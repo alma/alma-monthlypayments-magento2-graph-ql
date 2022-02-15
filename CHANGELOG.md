@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.2.1
+------
+
+* fix: typo alma_additional_data
+
 v0.2.0
 ------
 
