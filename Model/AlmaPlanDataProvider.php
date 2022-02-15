@@ -16,7 +16,7 @@ class AlmaPlanDataProvider implements AdditionalDataProviderInterface
     ) {
         $this->logger = $logger;
     }
-    private const PATH_ADDITIONAL_DATA = 'alma';
+    private const PATH_ADDITIONAL_DATA = 'alma_additional_data';
 
     /**
      * Format Alma input into value expected when setting payment method
@@ -30,7 +30,7 @@ class AlmaPlanDataProvider implements AdditionalDataProviderInterface
         $this->logger->info('AdditionalDataProviderInterface args',[$args]);
         if (!isset($args[self::PATH_ADDITIONAL_DATA])) {
             throw new GraphQlInputException(
-                __('Required parameter "alma" for "payment_method" is missing.')
+                __('Required parameter "alma_additional_data" for "payment_method" is missing.')
             );
         }
         return $args[self::PATH_ADDITIONAL_DATA];
