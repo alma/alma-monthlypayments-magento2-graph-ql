@@ -44,9 +44,7 @@ class AlmaConfig implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
-        $almaConfig = $value['model'];
-        return [
-            'model'=> $almaConfig,
+            return [
             'is_enabled' => $this->almaConfig->getIsActive(),
             'mode' => $this->almaConfig->getActiveMode(),
             'title' => $this->almaConfig->getPaymentButtonTitle(),

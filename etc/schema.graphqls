@@ -1,6 +1,5 @@
-#Custom Module
-extend type Cart {
-    alma: AlmaInput @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaConfig") @doc(description:"Resolve alma defaul config")
+type Query {
+    alma_eligibility : AlmaInput @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaConfig") @doc(description:"Resolve alma defaul config")
 }
 
 type AlmaEligibility {
@@ -25,7 +24,9 @@ type AlmaInput {
     title: String @doc(description: "Back Office Title")
     description: String @doc(description: "Back office desciption")
     sort_order: String @doc(description: "Back Office Sort Order")
-    fee_plans: [AlmaFeePlans] @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaFeePlans") @doc(description:"Resolve Alma Fee Plans")
+    payment_plans_by_id (
+        masked_cart_id : String @doc(description: "Masked cart id ")
+    ): [AlmaFeePlans] @resolver(class: "Alma\\GraphQL\\Model\\Resolver\\AlmaFeePlans") @doc(description:"Resolve Alma Fee Plans")
 }
 
 type AlmaFeePlans {
