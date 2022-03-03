@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v0.2.2
+------
+ * Change param name to cart_id
+ * Set quote elibility by quoteId
+ * Add masked quote id resolution in graphQL for 2.2.8 compatibility
+ * Change composer requirement
 
 v0.2.1
 ------

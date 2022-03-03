@@ -1,81 +1,52 @@
 <?php
 namespace Alma\GraphQL\Model\Resolver;
 
-use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Alma\MonthlyPayments\Helpers\Logger;
 use Alma\MonthlyPayments\Helpers\Eligibility;
-use Magento\Quote\Model\MaskedQuoteIdToQuoteIdInterface;
-use Magento\QuoteGraphQl\Model\Cart\GetCartForUser;
-use Magento\Quote\Model\QuoteFactory;
-use Magento\Checkout\Model\Session as CheckoutSession;
+use Alma\GraphQL\Helpers\QuoteHelper;
 
-
-class AlmaFeePlans implements ResolverInterface
+class AlmaFeePlans
 {
     /**
-     * @var MaskedQuoteIdToQuoteIdInterface
+     * @var Logger
      */
-    private $maskedQuoteIdToQuoteId;
+    private $logger;
 
     /**
-     * @var QuoteFactory
+     * @var Eligibility
      */
-    private $quoteFactory;
+    private $eligibility;
 
     /**
-     * @var GetCartForUser
+     * @var QuoteHelper
      */
-    private $getCartForUser;
+    private $quoteHelper;
 
     public function __construct(
         Logger $logger,
         Eligibility $eligibility,
-        MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId,
-        QuoteFactory $quoteFactory,
-        CheckoutSession $checkoutSession,
-        GetCartForUser $getCartForUser
-
+        QuoteHelper $quoteHelper
     ) {
         $this->logger = $logger;
         $this->eligibility = $eligibility;
-        $this->maskedQuoteIdToQuoteId = $maskedQuoteIdToQuoteId;
-        $this->quoteFactory = $quoteFactory;
-        $this->checkoutSession = $checkoutSession;
-        $this->getCartForUser = $getCartForUser;
-
+        $this->quoteHelper = $quoteHelper;
     }
 
     /**
-     * @param Field $field
-     * @param \Magento\Framework\GraphQl\Query\Resolver\ContextInterface $context
-     * @param ResolveInfo $info
-     * @param array|null $value
-     * @param array|null $args
+     * @param $quote
      * @return array|\Magento\Framework\GraphQl\Query\Resolver\Value|mixed
-     * @throws GraphQlInputException
      */
-    public function resolve(
-        Field $field,
-              $context,
-        ResolveInfo $info,
-        array $value = null,
-        array $args = null
-    ) {
-        if (empty($args['masked_cart_id'])) {
-            throw new GraphQlInputException(__('Required parameter "masked_cart_id" is missing'));
-        }
-        $currentUserId = $context->getUserId();
-        $this->logger->info('userId',[$currentUserId]);
-        $maskedCartId = $args['masked_cart_id'];
-        $paymentPlans = [];
-        $feePlans = $this->getFeePlans($maskedCartId);
+    public function getPlans($maskedQuoteId) {
 
+        $feePlans = $this->getFeePlans($maskedQuoteId);
         foreach ($feePlans as $key=> $plan){
-            $planConfig      = $plan->getPlanConfig()->toArray();
             $planEligibility = $plan->getEligibility();
+            if(!$planEligibility->isEligible()){
+                $this->logger->info('This plan is not eligible',[$planEligibility]);
+                continue;
+            }
+
+            $planConfig      = $plan->getPlanConfig()->toArray();
             $paymentPlans[$key]['key'] = $planConfig['key'];
             $paymentPlans[$key]['logo'] = $planConfig['logo'];
             $paymentPlans[$key]['allowed'] = $planConfig['allowed'];
@@ -104,35 +75,13 @@ class AlmaFeePlans implements ResolverInterface
      *
      * @return array
      */
-    private function getFeePlans($maskedCartId): array
+    private function getFeePlans($maskedQuoteId): array
     {
-        $quoteId = $this->getQuoteByMaskedQuoteId($maskedCartId);
-        $this->logger->info('$quoteId',[$quoteId]);
-        $quote = $this->getQuoteById($quoteId);
-        $this->logger->info('$quote',[$quote]);
-        $this->logger->info('$quote',[$quote->getData()]);
-        $this->setQuoteInSession($quote);
+        $quoteId = $this->quoteHelper->getQuoteIdByMaskedQuoteId($maskedQuoteId);
+        $this->logger->info('$Quote Id in Graph QL',[$quoteId]);
+        $this->eligibility->setEligibilityQuoteById($quoteId);
         $plans = $this->eligibility->getCurrentsFeePlans();
-        if (!$this->eligibility->isAlreadyLoaded()){
-            $plans=$this->eligibility->getEligiblePlans();
-        }
+        $this->logger->info('$plans',[$plans]);
         return $plans;
-    }
-
-    private function getQuoteById($quoteId){
-        return $this->quoteFactory->create()->load($quoteId);
-    }
-
-    private function getQuoteByMaskedQuoteId($maskedCartId){
-        return  $this->maskedQuoteIdToQuoteId->execute($maskedCartId);
-    }
-
-    private function setQuoteInSession($quote){
-
-        if (!$this->checkoutSession->hasQuote() && $quote) {
-            $this->checkoutSession->replaceQuote($quote);
-            $this->logger->info('load quote in session',[$this->checkoutSession->getQuote()]);
-        }
-
     }
 }

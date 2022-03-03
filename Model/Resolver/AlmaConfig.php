@@ -7,6 +7,7 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Alma\MonthlyPayments\Helpers\Logger;
 use Alma\MonthlyPayments\Gateway\Config\Config;
+use Alma\GraphQL\Model\Resolver\AlmaFeePlans;
 
 
 class AlmaConfig implements ResolverInterface
@@ -19,13 +20,19 @@ class AlmaConfig implements ResolverInterface
      * @var Config
      */
     private $almaConfig;
+    /**
+     * @var AlmaFeePlans
+     */
+    private $almaFeePlans;
 
     public function __construct(
         Logger $logger,
-        Config $almaConfig
+        Config $almaConfig,
+        AlmaFeePlans $almaFeePlans
     ) {
         $this->logger = $logger;
         $this->almaConfig = $almaConfig;
+        $this->almaFeePlans = $almaFeePlans;
     }
 
     /**
@@ -44,12 +51,16 @@ class AlmaConfig implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
+            if (empty($args['cart_id'])) {
+                throw new GraphQlInputException(__('Required parameter "cart_id" is missing'));
+            }
             return [
             'is_enabled' => $this->almaConfig->getIsActive(),
             'mode' => $this->almaConfig->getActiveMode(),
             'title' => $this->almaConfig->getPaymentButtonTitle(),
             'description' => $this->almaConfig->getPaymentButtonDescription(),
             'sort_order' => $this->almaConfig->getSortOrder(),
+            'payment_plans_by_id' =>$this->almaFeePlans->getPlans($args['cart_id'])
         ];
     }
 }
