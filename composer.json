@@ -1,5 +1,5 @@
 {
-    "name": "alma/magento2-graphql",
+    "name": "alma/alma-monthlypayments-magento2-graph-ql",
     "description": "Integrates Alma Monthly Payments into Graph QL Magento 2 ",
     "require": {
         "php": ">=5.5",
