@@ -7,7 +7,7 @@
         "magento/module-sales-graph-ql": ">=100.3.3"
     },
     "type": "magento2-module",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "license": [
         "MIT"
     ],

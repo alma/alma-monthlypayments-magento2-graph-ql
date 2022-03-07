@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+
+v0.2.3
+------
+* Change project name
+* Change composer requirement
+
 v0.2.2
 ------
  * Change param name to cart_id
