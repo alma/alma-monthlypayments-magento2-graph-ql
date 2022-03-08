@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.2.5
+------
+* remove magento sale graph-ql dependency
+
 v0.2.4
 ------
 * remove composer.lock
