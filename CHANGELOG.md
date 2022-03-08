@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.2.4
+------
+* remove composer.lock
+
 v0.2.3
 ------
 * Change project name
