@@ -73,13 +73,15 @@ class AlmaFeePlans
     /**
      * Get fee plans
      *
+     * @param $maskedQuoteId
      * @return array
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     private function getFeePlans($maskedQuoteId): array
     {
         $quoteId = $this->quoteHelper->getQuoteIdByMaskedQuoteId($maskedQuoteId);
         $this->logger->info('$Quote Id in Graph QL',[$quoteId]);
-        $this->eligibility->setEligibilityQuoteById($quoteId);
+        $this->quoteHelper->setEligibilityQuoteId($quoteId);
         $plans = $this->eligibility->getEligiblePlans();
         $this->logger->info('$plans',[$plans]);
         return $plans;
