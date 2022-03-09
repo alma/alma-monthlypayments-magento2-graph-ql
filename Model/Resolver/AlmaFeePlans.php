@@ -80,7 +80,7 @@ class AlmaFeePlans
         $quoteId = $this->quoteHelper->getQuoteIdByMaskedQuoteId($maskedQuoteId);
         $this->logger->info('$Quote Id in Graph QL',[$quoteId]);
         $this->eligibility->setEligibilityQuoteById($quoteId);
-        $plans = $this->eligibility->getCurrentsFeePlans();
+        $plans = $this->eligibility->getEligiblePlans();
         $this->logger->info('$plans',[$plans]);
         return $plans;
     }
