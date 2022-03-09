@@ -3,7 +3,8 @@
     "description": "Integrates Alma Monthly Payments into Graph QL Magento 2 ",
     "require": {
         "php": ">=5.5",
-        "alma/alma-monthlypayments-magento2": ">=2.2.0"
+        "alma/alma-monthlypayments-magento2": ">=2.2.0",
+        "magento/module-sales-graph-ql": ">=100.3.*"
     },
     "type": "magento2-module",
     "version": "0.2.5",
