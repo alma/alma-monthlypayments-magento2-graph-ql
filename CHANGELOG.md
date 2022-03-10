@@ -3,6 +3,11 @@ CHANGELOG
 
 v0.2.5
 ------
+* Restaure magento sale graph-ql dependency
+* Add eligibility for guest cart
+
+v0.2.5
+------
 * remove magento sale graph-ql dependency
 
 v0.2.4
