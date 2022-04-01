@@ -1,6 +1,7 @@
 <?php
 namespace Alma\GraphQL\Model\Resolver;
 
+use Alma\MonthlyPayments\Helpers\ApiConfigHelper;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
@@ -24,15 +25,21 @@ class AlmaConfig implements ResolverInterface
      * @var AlmaFeePlans
      */
     private $almaFeePlans;
+    /**
+     * @var ApiConfigHelper
+     */
+    private $apiConfigHelper;
 
     public function __construct(
         Logger $logger,
         Config $almaConfig,
+        ApiConfigHelper $apiConfigHelper,
         AlmaFeePlans $almaFeePlans
     ) {
         $this->logger = $logger;
         $this->almaConfig = $almaConfig;
         $this->almaFeePlans = $almaFeePlans;
+        $this->apiConfigHelper = $apiConfigHelper;
     }
 
     /**
@@ -56,7 +63,7 @@ class AlmaConfig implements ResolverInterface
             }
             return [
             'is_enabled' => $this->almaConfig->getIsActive(),
-            'mode' => $this->almaConfig->getActiveMode(),
+            'mode' => $this->apiConfigHelper->getActiveMode(),
             'title' => $this->almaConfig->getPaymentButtonTitle(),
             'description' => $this->almaConfig->getPaymentButtonDescription(),
             'sort_order' => $this->almaConfig->getSortOrder(),
