@@ -2,21 +2,16 @@
 namespace Alma\GraphQL\Model\Resolver;
 
 use Alma\MonthlyPayments\Helpers\ApiConfigHelper;
+use Alma\MonthlyPayments\Helpers\CheckoutConfigHelper;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Alma\MonthlyPayments\Helpers\Logger;
 use Alma\MonthlyPayments\Gateway\Config\Config;
-use Alma\GraphQL\Model\Resolver\AlmaFeePlans;
 
 
 class AlmaConfig implements ResolverInterface
 {
-    /**
-     * @var Logger
-     */
-    private $logger;
     /**
      * @var Config
      */
@@ -29,17 +24,21 @@ class AlmaConfig implements ResolverInterface
      * @var ApiConfigHelper
      */
     private $apiConfigHelper;
+    /**
+     * @var CheckoutConfigHelper
+     */
+    private $checkoutConfigHelper;
 
     public function __construct(
-        Logger $logger,
         Config $almaConfig,
         ApiConfigHelper $apiConfigHelper,
+        CheckoutConfigHelper $checkoutConfigHelper,
         AlmaFeePlans $almaFeePlans
     ) {
-        $this->logger = $logger;
         $this->almaConfig = $almaConfig;
         $this->almaFeePlans = $almaFeePlans;
         $this->apiConfigHelper = $apiConfigHelper;
+        $this->checkoutConfigHelper = $checkoutConfigHelper;
     }
 
     /**
@@ -64,8 +63,8 @@ class AlmaConfig implements ResolverInterface
             return [
             'is_enabled' => $this->almaConfig->getIsActive(),
             'mode' => $this->apiConfigHelper->getActiveMode(),
-            'title' => $this->almaConfig->getPaymentButtonTitle(),
-            'description' => $this->almaConfig->getPaymentButtonDescription(),
+            'title' => __($this->checkoutConfigHelper->getMergePaymentTitle()),
+            'description' => __($this->checkoutConfigHelper->getMergePaymentDesc()),
             'sort_order' => $this->almaConfig->getSortOrder(),
             'payment_plans_by_id' =>$this->almaFeePlans->getPlans($args['cart_id'])
         ];
