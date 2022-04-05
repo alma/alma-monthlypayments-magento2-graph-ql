@@ -39,6 +39,7 @@ class AlmaFeePlans
     public function getPlans($maskedQuoteId) {
 
         $feePlans = $this->getFeePlans($maskedQuoteId);
+        $paymentPlans = [];
         foreach ($feePlans as $key=> $plan){
             $planEligibility = $plan->getEligibility();
             if(!$planEligibility->isEligible()){
