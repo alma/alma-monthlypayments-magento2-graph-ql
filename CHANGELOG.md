@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.3.1
+------
+* Refactor helpers
+* Change alma-monthlypayments-magento2 version dependency
+
 v0.2.5
 ------
 * Restaure magento sale graph-ql dependency
