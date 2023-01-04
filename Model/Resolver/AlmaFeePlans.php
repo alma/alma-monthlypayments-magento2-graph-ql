@@ -59,8 +59,6 @@ class AlmaFeePlans
             $paymentPlans[$key]['min_amount'] = $planConfig['minAmount'];
             $paymentPlans[$key]['max_amount'] = $planConfig['maxAmount'];
             $paymentPlans[$key]['customer_lending_rate'] = $planConfig['customerLendingRate'];
-            $paymentPlans[$key]['deferred_type'] = $planConfig['deferredType'];
-            $paymentPlans[$key]['deferred_duration'] = $planConfig['deferredDuration'];
             $paymentPlans[$key]['eligibility']['is_eligible'] = $planEligibility->isEligible;
             $paymentPlans[$key]['eligibility']['reasons'] = $planEligibility->reasons;
             $paymentPlans[$key]['eligibility']['constraints'] = $planEligibility->constraints;
