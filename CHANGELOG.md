@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.3.2
+------
+* remove payment plan deferred_type and deferred_duration
+* Change alma-monthlypayments-magento2 vendor name & version dependency
+
 v0.3.1
 ------
 * Refactor helpers
