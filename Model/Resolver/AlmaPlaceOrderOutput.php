@@ -13,6 +13,23 @@ use Magento\Sales\Model\OrderFactory;
 
 class AlmaPlaceOrderOutput implements ResolverInterface
 {
+    /**
+     * @var Logger
+     */
+    private $logger;
+    /**
+     * @var Eligibility
+     */
+    private $eligibility;
+    /**
+     * @var Payment
+     */
+    private $almaPayment;
+    /**
+     * @var OrderFactory
+     */
+    private $orderFactory;
+
     public function __construct(
         Logger $logger,
         Eligibility $eligibility,
