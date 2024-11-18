@@ -11,6 +11,11 @@ use Alma\MonthlyPayments\Helpers\Logger;
  */
 class AlmaPlanDataProvider implements AdditionalDataProviderInterface
 {
+    /**
+     * @var Logger
+     */
+    private $logger;
+
     public function __construct(
         Logger $logger
     ) {

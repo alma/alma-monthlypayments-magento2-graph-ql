@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.3.3
+------
+* Fix Deprecated Functionality: Creation of dynamic property
+
 v0.3.2
 ------
 * remove payment plan deferred_type and deferred_duration
