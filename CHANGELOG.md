@@ -3,7 +3,7 @@ CHANGELOG
 
 v0.3.3
 ------
-* Deprecated Functionality: Creation of dynamic property
+* Fix Deprecated Functionality: Creation of dynamic property
 
 v0.3.2
 ------
